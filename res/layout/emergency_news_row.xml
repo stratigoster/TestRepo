@@ -15,16 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="0.5"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/latitude"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_weight="0.5"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
     </LinearLayout>
 
     <TextView
@@ -48,35 +46,35 @@
         android:weightSum="1" >
 
         <TextView
-            android:visibility="visible"
             android:id="@+id/from_road"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="0.5"
-            android:text="From road AKA" />
+            android:visibility="visible" />
 
         <TextView
-            android:visibility="visible"
-            android:layout_toRightOf="@id/from_road"
-            android:layout_marginLeft="20dp"
             android:id="@+id/to_road"
             android:layout_width="match_parent"
             android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/from_road"
             android:layout_weight="0.5"
-            android:text="BlahBlahBlah" />
-
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/at_road"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="ABCDEFG"
-            android:layout_weight="1" >
-        </TextView>
+            android:visibility="visible" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/at_road"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/to_road"
+        android:layout_weight="1"
+        android:text="ABCDEFG"
+        android:visibility="visible" >
+    </TextView>
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1" >
 
@@ -91,8 +89,7 @@
             android:id="@+id/end_time"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_weight="0.5"
-            android:text="End Time" />
+            android:layout_weight="0.5" />
     </LinearLayout>
 
     <TextView
