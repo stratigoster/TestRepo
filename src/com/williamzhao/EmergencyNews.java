@@ -242,22 +242,22 @@ public class EmergencyNews {
 						latitude = parser.nextText();
 						Log.i("tor", "Latitude" + latitude);
 					} else if (tagName.equals("note")) {
-						issueType = parser.getName();
+						issueType = parser.nextText();
 						Log.i("tor", "Note" + issueType);
 					} else if (tagName.equals("district")) {
-						district = parser.getName();
+						district = parser.nextText();
 						Log.i("tor", "District" + district);
 					} else if (tagName.equals("at_road")) {
-						atRoad = parser.getName();
-						Log.i("tor", "Parsed exception: AtRoad: \\" + atRoad);
+						atRoad = parser.nextText();
+						Log.i("tor", "AtRoad" + atRoad);
 					} else if (tagName.equals("urgent")) {
-						urgent = parser.getName();
+						urgent = parser.nextText();
 						if (!urgent.equals("Planned")) {
 							isEmergency = true;
 						}
 						Log.i("tor", "Urgent" + urgent);
 					} else if (tagName.equals("road_type")) {
-						roadType = parser.getName();
+						roadType = parser.nextText();
 						Log.i("tor", "RoadType" + roadType);
 					}
 					break;

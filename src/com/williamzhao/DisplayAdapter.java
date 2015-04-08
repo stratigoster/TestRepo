@@ -55,28 +55,32 @@ public class DisplayAdapter extends BaseAdapter {
 				.findViewById(R.id.description);
 		holder.fromRoad = (TextView) convertView.findViewById(R.id.from_road);
 		holder.issueType = (TextView) convertView.findViewById(R.id.issue_type);
-		holder.latitude = (TextView) convertView.findViewById(R.id.latitude);
-		holder.longitude = (TextView) convertView.findViewById(R.id.longitude);
+		//holder.latitude = (TextView) convertView.findViewById(R.id.latitude);
+		//holder.longitude = (TextView) convertView.findViewById(R.id.longitude);
 		holder.mainRoad = (TextView) convertView.findViewById(R.id.main_road);
-		holder.startLocal = (TextView) convertView
-				.findViewById(R.id.start_time);
+		
+		holder.startLocal = (TextView) convertView.findViewById(R.id.start_time);
 		holder.toRoad = (TextView) convertView.findViewById(R.id.to_road);
 		holder.atRoad = (TextView) convertView.findViewById(R.id.at_road);
 		
 		holder.issueType.setText(newsItem.getIssueType());
 		holder.description.setText(newsItem.getDescription());
 		
-		holder.latitude.setText(newsItem.getLatitude());
-		holder.longitude.setText(newsItem.getLongitude());
+		//holder.latitude.setText(newsItem.getLatitude());
+		//holder.longitude.setText(newsItem.getLongitude());
 		holder.mainRoad.setText(newsItem.getMainRoad());
-		holder.startLocal.setText(newsItem.getStartLocal());
+		holder.startLocal.setText("START: " + newsItem.getStartLocal());
+		if (!newsItem.getFromRoad().equals("")) {
+			holder.fromRoad.setText("From: " + newsItem.getFromRoad());
+		}
+		if (!newsItem.getToRoad().equals("")) {
+			holder.toRoad.setText("To: " + newsItem.getToRoad());
+		}
 		
-		holder.fromRoad.setText(newsItem.getFromRoad());
-		  holder.toRoad.setText(newsItem.getToRoad());
-		holder.atRoad.setText(newsItem.getAtRoad());
-		
-		holder.atRoad.setVisibility(View.VISIBLE);
-		
+		if (!holder.atRoad.equals("") || holder.atRoad.equals(" ") ) {
+			holder.atRoad.setText("At: " + newsItem.getAtRoad());
+			holder.atRoad.setVisibility(View.VISIBLE);
+		}
 		return convertView;
 	}
 
