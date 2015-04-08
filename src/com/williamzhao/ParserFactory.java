@@ -20,7 +20,7 @@ public class ParserFactory {
 	}
 	
 	private static void logParserFactoryError(XmlPullParserException e) {
-		Log.e( "nba", "ParseFactory:getParserFactory: Caught exception making parser factory: " + e.getLocalizedMessage() );
+		Log.e( "tor", "ParseFactory:getParserFactory: Caught exception making parser factory: " + e.getLocalizedMessage() );
 		e.printStackTrace();
 	}
 }

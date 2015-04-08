@@ -85,7 +85,6 @@ public class EmergencyNews {
 	}
 
 	public void setLatitude(String latitude) {
-		// Double lat = Double.parseDouble(latitude);
 		this.latitude = latitude;
 	}
 

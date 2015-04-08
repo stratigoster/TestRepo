@@ -50,7 +50,6 @@ public class TorRoadCondActivity extends ListActivity {
 	}
 	
 	protected void updateDisplay() {
-		//Use FlowerAdapter to display data
 		if (adapter == null) {
 			adapter = new DisplayAdapter(this, display);
 		}
