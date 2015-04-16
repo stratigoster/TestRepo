@@ -1,28 +1,24 @@
 package com.williamzhao;
 
 import java.io.IOException;
-
 import java.io.InputStream;
-
 import java.net.URL;
-
 import java.net.URLConnection;
-
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
-
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.location.Location;
-
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 public class EmergencyNews {
 	// NewsArticle
 	private String issueType; // corresponds to note
+	private long id;
 	private String issueId;
 	private String longitude;
 	private String latitude;
@@ -36,12 +32,16 @@ public class EmergencyNews {
 	private String description;
 	private String startLocal;
 	private String endLocal;
+	
+	public EmergencyNews() {
+		
+	}
 
 	public EmergencyNews(String issueType, String issueId, String longitude,
 			String latitude, String mainRoad, String fromRoad, String toRoad,
 			String atRoad, String description, String startLocal,
 			String endLocal, String roadType, String district,
-			boolean isEmergency) {
+			boolean isEmergency, long id) {
 		checkIfNull(longitude); // also need to check if empty "" returned
 		checkIfNull(latitude);
 		checkIfNull(mainRoad);
@@ -65,7 +65,15 @@ public class EmergencyNews {
 		this.setRoadType(roadType);
 		this.setEmergency(isEmergency);
 	}
-
+	
+	public long setId(long id) {
+		return this.id;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
 	private void checkIfNull(String string) {
 		if (string == null) {
 			string = "NO DATA RETURNED";
@@ -135,6 +143,10 @@ public class EmergencyNews {
 	public void setEndLocal(String endLocal) {
 		this.endLocal = endLocal;
 	}
+	
+	public void setIssueId(String id) {
+		this.issueId = id;
+	}
 
 	public String getIssueType() {
 		return issueType;
@@ -188,10 +200,10 @@ public class EmergencyNews {
 		return content;
 	}
 
+
 	public static List<EmergencyNews> parseFeed(final String url) throws IOException {
 		final InputStream is = getInputStreamFromUrl(url);
 		List<EmergencyNews> newsItems = new ArrayList<EmergencyNews>();
-		
 		try {
 			final XmlPullParser parser = ParserFactory.getParserFactory().newPullParser(); // why use a ParserFactory
 			parser.setInput(is, null);
@@ -265,10 +277,12 @@ public class EmergencyNews {
 					if (tagName.equals("record")) {
 						Log.i("tor", "longitude " + longitude);
 						Log.i("tor", "latitude " + latitude);
+						//add this to the database
 						newsItems.add(new EmergencyNews(issueType, issueId,
 								longitude, latitude, mainRoad, fromRoad,
 								toRoad, atRoad, description, startLocal,
-								endLocal, roadType, district, isEmergency));
+								endLocal, roadType, district, isEmergency, 0));
+						//createData
 						Log.i("tor", "Successfully created a new object");
 					} else {
 					}

@@ -3,14 +3,27 @@ package com.williamzhao;
 import java.io.IOException;
 import java.util.List;
 
+import com.TorRoadCond.db.NewsDataSource;
+import com.TorRoadCond.db.NewsDbOpenHelper;
+import com.TorRoadCond.parser.TorontoRoadParser;
+
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 //http://opendata.toronto.ca/transportation/front.yard.parking/frontyardparking.xml
 
@@ -22,6 +35,8 @@ public class TorRoadCondActivity extends ListActivity {
 	ProgressBar pb;
 	List<EmergencyNews> display;
 	DisplayAdapter adapter;
+	
+	NewsDataSource dataSource;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -30,14 +45,60 @@ public class TorRoadCondActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		//TODO: test what happens when you rotate the phone while the page is loading. 
 		pb = (ProgressBar) findViewById(R.id.progressBar1);
 		pb.setVisibility(View.INVISIBLE);
 		
-		String url = futureRoadRestrictions;
+		dataSource = new NewsDataSource(this);
+		dataSource.open();
 		
+		//if data does not exist in database, create a new database
+		display = dataSource.findAll();
+		if (display.size() == 0) {
+			requestData();
+			//TODO: add data to database
+		}    
+		else {
+			display = dataSource.findAll();
+			updateDisplay();
+		}
+		
+		//ArrayAdapter<EmergencyNews>
+		//requestData();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    getMenuInflater().inflate(R.menu.data_menu, menu);
+	    return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.new_game) {
+			if (isOnline()) {
+    			requestData();
+    		}
+    		else {
+    			Toast.makeText(this, "NETWORK ISN'T AVAILABLE", Toast.LENGTH_LONG).show();
+    		}
+		}
+		return false;
+	}
+	
+	private void requestData() {
 		RoadConditionTask obtainTask = new RoadConditionTask();
-		obtainTask.execute(url);
+		obtainTask.execute(futureRoadRestrictions);
+	}
+	
+	protected boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
@@ -69,6 +130,9 @@ public class TorRoadCondActivity extends ListActivity {
 		@Override
 		protected String doInBackground(String... params) {
 			try {
+				//how o turn string url into input stream
+				//TorontoRoadParser.parseFeed(params[0]);
+				
 				display = EmergencyNews.parseFeed(params[0]);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -80,10 +144,27 @@ public class TorRoadCondActivity extends ListActivity {
 		protected void onPostExecute(String result) {
 			pb.setVisibility(View.INVISIBLE);
 			updateDisplay();
+			for (EmergencyNews em: display) {
+				dataSource.create(em);
+			}
 		}
 
 		@Override
 		protected void onProgressUpdate(String... values) {
 		}
+	
 	}
+	
+	@Override 
+	protected void onPause() {
+		super.onPause();
+		dataSource.close();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		dataSource.open();
+	}
+		
 }

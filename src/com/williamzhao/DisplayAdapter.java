@@ -73,9 +73,12 @@ public class DisplayAdapter extends BaseAdapter {
 		if (!newsItem.getFromRoad().equals("")) {
 			holder.fromRoad.setText("From: " + newsItem.getFromRoad());
 		}
+		//TODO add back or update ToRoad on database
+		/*
 		if (!newsItem.getToRoad().equals("")) {
 			holder.toRoad.setText("To: " + newsItem.getToRoad());
 		}
+		*/
 		
 		if (!holder.atRoad.equals("") || holder.atRoad.equals(" ") ) {
 			holder.atRoad.setText("At: " + newsItem.getAtRoad());
