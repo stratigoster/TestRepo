@@ -2,7 +2,6 @@ package com.TorRoadCond.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -14,6 +13,7 @@ public class NewsDbOpenHelper extends SQLiteOpenHelper{
 	private static final int DATABASE_VERSION = 1;
 	
 	public static final String TABLE_NEWS = "news";
+	
 	public static final String COLUMN_ID = "newsId";
 	public static final String COLUMN_MAIN_ROAD = "main_road";
 	public static final String COLUMN_AT_ROAD = "at_road";
@@ -42,16 +42,17 @@ public class NewsDbOpenHelper extends SQLiteOpenHelper{
              + COLUMN_END_DATE_TIME + " TEXT,"
              + COLUMN_DESCRIPTION + " TEXT," 
              + COLUMN_NOTE + " TEXT" +
-             
     ")";
 	
+	//this is called when the table is created for the first time.
 	@Override
 	public void onCreate(SQLiteDatabase db) {
+		Log.i(LOGTAG, "Table has been created");
 		//add code to create the table and also the data to the table
 		db.execSQL(TABLE_CREATE);
-		Log.i(LOGTAG, "Table has been created");
 	}
 	
+	//called when the data base needs to be upgraded
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NEWS);

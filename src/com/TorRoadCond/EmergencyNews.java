@@ -10,9 +10,6 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 public class EmergencyNews {
@@ -32,6 +29,8 @@ public class EmergencyNews {
 	private String description;
 	private String startLocal;
 	private String endLocal;
+	
+	private static int index;
 	
 	public EmergencyNews() {
 		
@@ -281,7 +280,7 @@ public class EmergencyNews {
 						newsItems.add(new EmergencyNews(issueType, issueId,
 								longitude, latitude, mainRoad, fromRoad,
 								toRoad, atRoad, description, startLocal,
-								endLocal, roadType, district, isEmergency, 0));
+								endLocal, roadType, district, isEmergency, ++index));
 						//createData
 						Log.i("tor", "Successfully created a new object");
 					} else {

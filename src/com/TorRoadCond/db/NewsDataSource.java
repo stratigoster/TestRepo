@@ -11,13 +11,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-//add a separate wrapper for datbase
+//add a separate wrapper for database, it encapsulates instance of dbHelper and database
 //add log statements for testing without using adb shell
 public class NewsDataSource {
 	public static final String LOGTAG="TOR";
 	
 	NewsDbOpenHelper dbhelper;
 	SQLiteDatabase database;
+
+	private Object NewsSQLHelper;
 	
 	//a string of all columns
 	private static final String[] allColumns = { 
@@ -68,21 +70,22 @@ public class NewsDataSource {
 		long insertId = database.insert(NewsDbOpenHelper.TABLE_NEWS, null, values);
 		Log.i("tor", "" + insertId);
 		//news.setIssueId(insertId);
-		
 		return news;
 	}
 	
-	public List<EmergencyNews> findAll() {
+	public List<EmergencyNews> findFiltered(String selection) {
+		
+		Cursor cursor = database.query(NewsDbOpenHelper.TABLE_NEWS, allColumns, selection, null, null, null, null);
+		
+		Log.i(LOGTAG, "Returned " + cursor.getCount() + " rows");
+		List<EmergencyNews> tours = cursorToList(cursor);
+		return tours;
+	}
+	
+	private List<EmergencyNews> cursorToList(Cursor cursor) {
 		List<EmergencyNews> news = new ArrayList<EmergencyNews>();
-		//getting a join uses rawQuery
-		//Cursor is like JDBC ResultSet class. Reference to result set query. 
-		
-		Cursor cursor = database.query(NewsDbOpenHelper.TABLE_NEWS, allColumns, null, null, null, null, null);
-		
-		Log.i(LOGTAG, "Returned: " + cursor.getCount() + " rows");
-		//ResultSet starts before the first row. 
 		if (cursor.getCount() > 0) {
-			while(cursor.moveToNext()) { //start from the first row
+			while (cursor.moveToNext()) {
 				EmergencyNews emergency = new EmergencyNews();
 				emergency.setId(cursor.getLong(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_ID)));
 				emergency.setDescription(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_DESCRIPTION)));
@@ -93,12 +96,21 @@ public class NewsDataSource {
 				emergency.setLatitude(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_LATITUDE)));
 				emergency.setLongitude(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_LONGITUDE)));
 				emergency.setMainRoad(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_MAIN_ROAD)));
-				//emergency.se(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_NOTE)));
+				//emergency.setNote(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_NOTE)));
 				emergency.setRoadType(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_ROAD_TYPE)));
 				emergency.setStartLocal(cursor.getString(cursor.getColumnIndex(NewsDbOpenHelper.COLUMN_START_DATE_TIME)));
 				news.add(emergency);
 			}
 		}
+		return news;
+	}
+	
+	public List<EmergencyNews> findAll() {
+		List<EmergencyNews> news = new ArrayList<EmergencyNews>();
+		//getting a join uses rawQuery
+		//Cursor is like JDBC ResultSet class. Reference to result set query. 
+		Cursor cursor = database.query(NewsDbOpenHelper.TABLE_NEWS, allColumns, null, null, null, null, null);
+		news = cursorToList(cursor);
 		return news;
 	}
 	
