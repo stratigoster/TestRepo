@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.williamzhao.MainActivity">
+    
+    <item android:id="@+id/new_game"
+          android:title="refreshPage" 
+          android:icon="@drawable/android_icon"
+          android:orderInCategory="100"/>
+    
+     <item android:id="@+id/filter_name"
+          android:title="filter_by_name" 
+          android:icon="@drawable/android_icon"
+          android:orderInCategory="100"/>
+     
+</menu>
