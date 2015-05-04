@@ -166,42 +166,7 @@ public class TorRoadCondActivity extends ListActivity {
 		}
 	
 	}
-	/*
-	protected String doInBackground(URL... urls) {
-		try {
-			HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(new HttpRequestInitializer() {
-			@Override
-				public void initialize(HttpRequest request) {
-					request.setParser(new JsonObjectParser(JSON_FACTORY));
-				}
-			});
 
-			GenericUrl url = new GenericUrl("http://maps.googleapis.com/maps/api/directions/json");
-			url.put("origin", "Chicago,IL");
-			url.put("destination", "Los Angeles,CA");
-			url.put("sensor",false);
-
-			HttpRequest request = requestFactory.buildGetRequest(url);
-			HttpResponse httpResponse = request.execute();
-			DirectionsResult directionsResult = httpResponse.parseAs(DirectionsResult.class);
-			String encodedPoints = directionsResult.routes.get(0).overviewPolyLine.points;
-			latLngs = PolyUtil.decode(encodedPoints);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return null;
-		}
-
-		protected void onProgressUpdate(Integer... progress) {
-		}
-
-		protected void onPostExecute(String result) {
-			clearMarkers();
-			addMarkersToMap(latLngs);
-		}
-	}
-	*/	
-	
 	@Override 
 	protected void onPause() {
 		super.onPause();

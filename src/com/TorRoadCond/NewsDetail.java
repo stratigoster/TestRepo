@@ -18,7 +18,6 @@ public class NewsDetail extends Activity {
 		Log.i("tor", "DetailsPage");
 
 		// get detail from intent
-
 		String issueId = getIntent().getStringExtra("key");
 		String description = getIntent().getStringExtra("description");
 		String issueType = getIntent().getStringExtra("issueType");
