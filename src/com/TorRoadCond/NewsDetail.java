@@ -67,9 +67,7 @@ public class NewsDetail extends Activity {
 		
 		Log.i("testLatitude", latitude);
 		Log.i("testLongitude", longitude);
-		
-		String labelLocation = "Jorgesys @ Bucharest";
-		
+				
 		String urlAddress = "http://maps.google.com/maps?q="+ latitude  +"," + longitude + "&iwloc=A&hl=es";  
 		Log.i("testURLAddress", urlAddress);
 		
@@ -78,18 +76,7 @@ public class NewsDetail extends Activity {
 		if (intent.resolveActivity(getPackageManager()) != null) {
 			startActivity(intent);
 		}
-	    
-	    /*
-		Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "(NamedMarker)");
-
-		"geo:"+latitude+","+longitude+"?q=("+head+")@"+lat+","+lon
-		
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setData(gmmIntentUri);
-		if (intent.resolveActivity(getPackageManager()) != null) {
-			startActivity(intent);
-		}
-		*/
+	   
 	}
 
 }
